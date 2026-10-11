@@ -1,1 +1,0 @@
-export const REGISTER_URL = `https://ventorme.ai/register?utm_source=hacknext&utm_campaign=team-104`;
