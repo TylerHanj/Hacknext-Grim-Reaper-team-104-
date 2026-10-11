@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ventorme — узнай, кем стать и куда поступить</title>
+<meta name="description" content="3 вопроса — и твой план поступления: профессия, вузы и шансы на грант. Бесплатно.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ventorme — узнай, кем стать и куда поступить">
+<meta property="og:description" content="3 вопроса — и твой план поступления: профессия, вузы и шансы на грант. Бесплатно.">
+<meta name="theme-color" content="#3b47ff">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@600&text=ventorme.ai&display=swap">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2.5C12.7 7.6 16.4 11.3 21.5 12C16.4 12.7 12.7 16.4 12 21.5C11.3 16.4 7.6 12.7 2.5 12C7.6 11.3 11.3 7.6 12 2.5Z' fill='%23c9ceff' stroke='%233d4aff' stroke-width='2.2' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+/*
+  Лендинг Ventorme, команда 104 (HACKNEXT × Ventorme).
+  Почему он устроен так — по данным кейса:
+  - 80% посетителей с телефона, 37,5% из них не листают первый экран (Т2, Т6)
+    → квиз и кнопка на первом экране, страница лёгкая, без картинок.
+  - Начавшие квиз на телефоне регистрируются в 66,7% случаев, не начавшие в 5,8% (Т8)
+    → квиз главный элемент и в конце даёт персональный план.
+  - Люди ищут «Что я получу после регистрации?», «Родителям» и т.п. (Т9)
+    → блок возможностей, блок для родителей, частые вопросы.
+  - 55% регистрируются через Google (Т11) → пишем, что это быстро.
+  - 21% открывают сайт на английском, 1% на казахском (Т10) → переключатель RU / KZ / EN.
+*/
+:root {
+  --primary: #3b47ff;
+  --primary-hover: #2a35e6;
+  --lime: #dfff00;
+  --bg: #f1f5f9;
+  --card: #ffffff;
+  --ink: #0f172a;
+  --text: #1e293b;
+  --muted: #5b6478;
+  --line: rgba(0, 0, 0, 0.08);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--primary); }
+button { font: inherit; }
+
+.page { max-width: 560px; margin: 0 auto; padding: 12px 16px 104px; }
+
+/* Шапка */
+.site-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 4px 0 16px; }
+/* Логотип как на ventorme.ai: «ventorme.ai» тёмно-синим + звёздочка */
+.brand {
+  position: relative; display: inline-block; padding-right: 14px;
+  font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  font-weight: 600; font-size: 22px; line-height: 1; letter-spacing: -0.4px; color: #02053f;
+  white-space: nowrap;
+}
+.brand-spark { position: absolute; right: 0; top: -9px; width: 15px; height: 15px; }
+.header-right { display: flex; align-items: center; gap: 8px; }
+/* Выбор языка: кнопка и всплывающее окошко */
+.lang { position: relative; }
+.lang-toggle {
+  display: flex; align-items: center; gap: 6px; height: 36px; padding: 0 10px 0 9px;
+  border: 1px solid var(--line); border-radius: 999px; background: var(--card);
+  color: var(--ink); font-size: 14px; font-weight: 700; cursor: pointer;
+}
+.lang-toggle:hover { border-color: #c5cbff; }
+.lang-toggle svg { width: 16px; height: 16px; flex: none; }
+.lang-toggle .chev { width: 12px; height: 12px; color: var(--muted); transition: transform .15s ease; }
+.lang-toggle[aria-expanded="true"] .chev { transform: rotate(180deg); }
+.lang-menu {
+  position: absolute; right: 0; top: calc(100% + 6px); z-index: 30; min-width: 168px;
+  list-style: none; padding: 6px; background: var(--card); border: 1px solid var(--line);
+  border-radius: 14px; box-shadow: 0 12px 32px rgba(15, 23, 42, 0.14);
+}
+.lang-menu[hidden] { display: none; }
+.lang-menu button {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%;
+  padding: 10px 12px; border: 0; border-radius: 10px; background: none; cursor: pointer;
+  color: var(--ink); font-size: 15px; font-weight: 600; text-align: left;
+}
+.lang-menu button:hover, .lang-menu button:focus-visible { background: #eef0ff; outline: none; }
+.lang-menu button .code { font-size: 12px; font-weight: 700; color: var(--muted); }
+.lang-menu button[aria-checked="true"] { color: var(--primary); }
+.lang-menu button[aria-checked="true"] .code::before { content: "✓ "; color: var(--primary); }
+.header-link {
+  font-size: 14px; font-weight: 600; text-decoration: none; padding: 8px 12px;
+  border-radius: 999px; border: 1px solid #d5d9ff; background: var(--card); white-space: nowrap;
+}
+
+/* Первый экран */
+.hero { margin-bottom: 16px; }
+.hero h1 {
+  font-size: 28px; line-height: 1.15; font-weight: 800; letter-spacing: -0.5px;
+  color: var(--ink); margin-bottom: 8px; text-wrap: balance;
+}
+.hero p { font-size: 15px; color: var(--muted); }
+
+/* Квиз */
+.quiz-card {
+  background: var(--primary); color: #fff; border-radius: 24px; padding: 20px;
+  box-shadow: 0 12px 30px rgba(59, 71, 255, 0.25); scroll-margin-top: 16px;
+}
+.quiz-top { display: flex; justify-content: space-between; align-items: center; min-height: 26px; margin-bottom: 8px; }
+.quiz-step { font-size: 13px; font-weight: 600; opacity: 0.85; }
+.progress { height: 6px; border-radius: 999px; background: rgba(255,255,255,0.2); overflow: hidden; margin-bottom: 16px; }
+.progress span { display: block; height: 100%; width: 0; background: var(--lime); border-radius: 999px; transition: width .25s ease; }
+.quiz-question { font-size: 20px; font-weight: 700; margin-bottom: 12px; }
+.quiz-options { display: flex; flex-direction: column; gap: 8px; }
+.quiz-btn {
+  width: 100%; min-height: 52px; padding: 12px 16px; border-radius: 14px; border: 0;
+  background: #fff; color: var(--ink); font-size: 16px; font-weight: 600; text-align: left;
+  cursor: pointer; transition: transform .1s ease, background-color .15s ease;
+}
+.quiz-btn:hover { background: #eef0ff; }
+.quiz-btn:active { transform: scale(0.98); }
+.link-btn {
+  background: none; border: 0; color: inherit; font-size: 14px; font-weight: 600; opacity: 0.9;
+  cursor: pointer; padding: 4px 0; text-decoration: underline; text-underline-offset: 3px;
+}
+.quiz-kicker { font-size: 20px; font-weight: 800; margin-bottom: 12px; }
+.plan { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+.plan li { position: relative; padding-left: 30px; font-size: 15px; }
+.plan li::before {
+  content: "✓"; position: absolute; left: 0; top: 2px; width: 20px; height: 20px; border-radius: 999px;
+  background: var(--lime); color: var(--ink); font-size: 12px; font-weight: 800; display: grid; place-items: center;
+}
+.hint { text-align: center; font-size: 13px; opacity: 0.85; margin: 8px 0 4px; }
+.quiz-result .link-btn { display: block; margin: 0 auto; }
+
+/* Кнопки */
+.btn {
+  display: flex; align-items: center; justify-content: center; min-height: 54px; padding: 14px 20px;
+  border-radius: 16px; font-size: 16px; font-weight: 700; text-align: center; text-decoration: none;
+  transition: transform .1s ease, background-color .15s ease;
+}
+.btn:active { transform: scale(0.98); }
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-lime { background: var(--lime); color: var(--ink); }
+.btn-lime:hover { background: #d0ee00; }
+
+.skip { text-align: center; font-size: 14px; color: var(--muted); margin-top: 14px; }
+.skip a { font-weight: 600; }
+
+.trust {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 14px; list-style: none;
+  margin-top: 14px; font-size: 13px; font-weight: 600; color: var(--muted);
+}
+.trust li::before { content: "✓ "; color: #1f9d6c; }
+
+/* Секции */
+.block { margin-top: 40px; }
+.block h2 { font-size: 22px; font-weight: 800; line-height: 1.25; color: var(--ink); margin-bottom: 14px; text-wrap: balance; }
+
+.steps { list-style: none; display: grid; gap: 10px; counter-reset: s; }
+.steps li {
+  counter-increment: s; display: grid; grid-template-columns: 36px 1fr; gap: 12px; align-items: start;
+  background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px;
+}
+.steps li::before {
+  content: counter(s); width: 36px; height: 36px; border-radius: 999px; background: var(--primary);
+  color: #fff; font-weight: 800; display: grid; place-items: center;
+}
+.steps h3, .feature h3 { font-size: 16px; font-weight: 700; color: var(--ink); }
+.steps p, .feature p { font-size: 14px; color: var(--muted); }
+
+.features { display: grid; grid-template-columns: 1fr; gap: 10px; }
+@media (min-width: 480px) { .features { grid-template-columns: 1fr 1fr; } }
+.feature {
+  display: flex; gap: 12px; align-items: flex-start; background: var(--card);
+  border: 1px solid var(--line); border-radius: 16px; padding: 14px;
+}
+.feature-icon { flex: none; font-size: 22px; line-height: 1.2; }
+
+.parents {
+  background: #eef0ff; border: 1px solid #d5d9ff; border-radius: 20px; padding: 20px;
+}
+.parents h2 { margin-bottom: 8px; }
+.parents p { color: var(--muted); margin-bottom: 12px; }
+.parents ul { list-style: none; display: grid; gap: 6px; }
+.parents li { padding-left: 24px; position: relative; }
+.parents li::before { content: "•"; position: absolute; left: 8px; color: var(--primary); font-weight: 800; }
+
+.faq { display: flex; flex-direction: column; gap: 8px; }
+.faq details { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 0 16px; }
+.faq summary { cursor: pointer; list-style: none; padding: 14px 28px 14px 0; font-weight: 600; position: relative; color: var(--ink); }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; position: absolute; right: 0; top: 11px; font-size: 22px; color: var(--primary); }
+.faq details[open] summary::after { content: "−"; }
+.faq details p { padding-bottom: 14px; color: var(--muted); font-size: 15px; }
+
+.final-cta {
+  margin-top: 40px; background: var(--card); border: 1px solid var(--line);
+  border-radius: 24px; padding: 24px 20px; text-align: center;
+}
+.final-cta h2 { font-size: 22px; font-weight: 800; color: var(--ink); margin-bottom: 6px; }
+.final-cta p { color: var(--muted); margin-bottom: 16px; }
+
+.footer { text-align: center; font-size: 13px; color: var(--muted); margin-top: 24px; }
+
+/* Липкая кнопка на телефоне */
+.sticky-cta {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 10;
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+  background: rgba(241, 245, 249, 0.94); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  border-top: 1px solid var(--line); transform: translateY(110%); transition: transform .2s ease;
+  visibility: hidden;
+}
+.sticky-cta.is-visible { transform: none; visibility: visible; }
+.sticky-cta .btn { max-width: 528px; margin: 0 auto; }
+
+@media (min-width: 768px) {
+  .page { padding-top: 24px; padding-bottom: 48px; }
+  .hero h1 { font-size: 38px; }
+  .sticky-cta { display: none; }
+}
+@media (max-width: 399px) {
+  .header-link { display: none; }
+}
+
+a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+.quiz-card a:focus-visible, .quiz-card button:focus-visible { outline-color: var(--lime); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="site-header">
+    <!-- Логотип без ссылки: переход на ventorme.ai без метки команды не засчитается -->
+    <div class="brand" role="img" aria-label="ventorme.ai">
+      <span aria-hidden="true">ventorme.ai</span>
+      <svg class="brand-spark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5C12.7 7.6 16.4 11.3 21.5 12C16.4 12.7 12.7 16.4 12 21.5C11.3 16.4 7.6 12.7 2.5 12C7.6 11.3 11.3 7.6 12 2.5Z" fill="#c9ceff" stroke="#3d4aff" stroke-width="2.2" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="header-right">
+      <div class="lang" id="lang">
+        <button type="button" class="lang-toggle" id="langToggle" aria-haspopup="menu" aria-expanded="false" aria-controls="langMenu" aria-label="Язык / Тіл / Language">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg>
+          <span id="langCode">RU</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <ul class="lang-menu" id="langMenu" role="menu" hidden>
+          <li role="none"><button type="button" role="menuitemradio" data-set-lang="ru" aria-checked="true">Русский <span class="code">RU</span></button></li>
+          <li role="none"><button type="button" role="menuitemradio" data-set-lang="kk" aria-checked="false">Қазақша <span class="code">KZ</span></button></li>
+          <li role="none"><button type="button" role="menuitemradio" data-set-lang="en" aria-checked="false">English <span class="code">EN</span></button></li>
+        </ul>
+      </div>
+      <a class="header-link js-register" href="https://ventorme.ai/register?utm_source=hacknext&amp;utm_campaign=team-104" data-i18n="headerLink">Регистрация</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1 data-i18n="heroTitle">Узнай, кем стать и куда поступить</h1>
+      <p data-i18n="heroSub">3 вопроса — и ты получишь свой план поступления: профессия, вузы и шансы на грант.</p>
+    </section>
+
+    <section class="quiz-card" id="quiz" aria-live="polite"></section>
+
+    <p class="skip"><span data-i18n="skipText">Уже знаешь, чего хочешь?</span> <a class="js-register" href="https://ventorme.ai/register?utm_source=hacknext&amp;utm_campaign=team-104" data-i18n="skipLink">Зарегистрироваться сразу</a></p>
+    <ul class="trust">
+      <li data-i18n="trust1">Бесплатно</li>
+      <li data-i18n="trust2">Вход через Google</li>
+      <li data-i18n="trust3">Меньше минуты</li>
+    </ul>
+
+    <section class="block">
+      <h2 data-i18n="howTitle">Как это работает</h2>
+      <ol class="steps" id="steps"></ol>
+    </section>
+
+    <section class="block">
+      <h2 data-i18n="featTitle">Что откроется после регистрации</h2>
+      <div class="features" id="features"></div>
+    </section>
+
+    <section class="block parents">
+      <h2 data-i18n="parentsTitle">Родителям</h2>
+      <p data-i18n="parentsText">В Ventorme есть раздел для родителей: можно следить за прогрессом ребёнка и вместе выбирать вузы.</p>
+      <ul id="parentsList"></ul>
+    </section>
+
+    <section class="block">
+      <h2 data-i18n="faqTitle">Частые вопросы</h2>
+      <div class="faq" id="faq"></div>
+    </section>
+
+    <section class="final-cta">
+      <h2 data-i18n="finalTitle">Начни бесплатно</h2>
+      <p data-i18n="finalText">Регистрация через Google или почту занимает меньше минуты.</p>
+      <a class="btn btn-primary js-register" href="https://ventorme.ai/register?utm_source=hacknext&amp;utm_campaign=team-104" data-i18n="finalBtn">Зарегистрироваться в Ventorme</a>
+    </section>
+  </main>
+
+  <footer class="footer" data-i18n="footer">Ventorme помогает школьникам выбрать профессию и поступить в вуз.</footer>
+</div>
+
+<div class="sticky-cta" id="sticky" aria-hidden="true">
+  <a class="btn btn-primary js-register" href="https://ventorme.ai/register?utm_source=hacknext&amp;utm_campaign=team-104" tabindex="-1" data-i18n="stickyBtn">Зарегистрироваться бесплатно</a>
+</div>
+
+<script>
+(function () {
+  // ===== Ссылка команды. Меняется только здесь. =====
+  var REGISTER_URL = 'https://ventorme.ai/register?utm_source=hacknext&utm_campaign=team-104';
+
+  var T = {
+    ru: {
+      title: 'Ventorme — узнай, кем стать и куда поступить',
+      headerLink: 'Регистрация',
+      heroTitle: 'Узнай, кем стать и куда поступить',
+      heroSub: '3 вопроса — и ты получишь свой план поступления: профессия, вузы и шансы на грант.',
+      skipText: 'Уже знаешь, чего хочешь?',
+      skipLink: 'Зарегистрироваться сразу',
+      trust1: 'Бесплатно', trust2: 'Вход через Google', trust3: 'Меньше минуты',
+      howTitle: 'Как это работает',
+      steps: [
+        ['Ответь на 3 вопроса', 'Класс, направление и где хочешь учиться.'],
+        ['Зарегистрируйся', 'Через Google или почту, меньше минуты.'],
+        ['Получи свой план', 'Профтест, подходящие вузы и шансы на грант.']
+      ],
+      featTitle: 'Что откроется после регистрации',
+      features: [
+        ['🧭', 'Профтест', 'Подскажет, какие профессии тебе подходят.'],
+        ['🎓', 'Подбор вузов', 'Вузы в Казахстане и за рубежом под твои цели.'],
+        ['🧮', 'Калькулятор гранта', 'Шансы на грант по баллам ЕНТ.'],
+        ['📝', 'IELTS и SAT', 'Подготовка к экзаменам для поступления за рубеж.'],
+        ['✍️', 'Помощь с эссе', 'Мотивационное письмо для поступления.'],
+        ['🤖', 'ИИ-помощник Venti', 'Ответит на вопросы о поступлении в любое время.']
+      ],
+      parentsTitle: 'Родителям',
+      parentsText: 'В Ventorme есть раздел для родителей: можно следить за прогрессом ребёнка и вместе выбирать вузы.',
+      parentsList: ['Видно, что ребёнок уже прошёл', 'Понятный список подходящих вузов', 'Шансы на грант по баллам ЕНТ'],
+      faqTitle: 'Частые вопросы',
+      faq: [
+        ['Что я получу после регистрации?', 'Личный кабинет Ventorme: профтест, подбор вузов, калькулятор гранта по ЕНТ, подготовку к IELTS и SAT, помощь с эссе и ИИ-помощника Venti.'],
+        ['Это бесплатно?', 'Регистрация бесплатная, начать можно сразу. Расширенные возможности есть в платном тарифе, но покупать его не обязательно.'],
+        ['Долго регистрироваться?', 'Нет. Можно войти через Google в пару нажатий или зарегистрироваться по почте.'],
+        ['Можно ли поступить, если оценки не идеальные?', 'Да, вузы бывают разные. Ventorme подберёт варианты под твои баллы и покажет, где шансы выше.'],
+        ['Я в 8–9 классе. Не рано?', 'Нет. Чем раньше выберешь направление, тем больше времени на подготовку к ЕНТ или IELTS.']
+      ],
+      finalTitle: 'Начни бесплатно',
+      finalText: 'Регистрация через Google или почту занимает меньше минуты.',
+      finalBtn: 'Зарегистрироваться в Ventorme',
+      stickyBtn: 'Зарегистрироваться бесплатно',
+      footer: 'Ventorme помогает школьникам выбрать профессию и поступить в вуз.',
+      qStep: function (i, n) { return 'Вопрос ' + i + ' из ' + n; },
+      back: '← Назад',
+      questions: [
+        { key: 'grade', text: 'В каком ты классе?', options: [['8-9', '8–9 класс'], ['10-11', '10–11 класс'], ['college', 'Колледж']] },
+        { key: 'field', text: 'Что тебе ближе?', options: [['it', '💻 IT и технологии'], ['business', '📊 Бизнес и аналитика'], ['med', '🩺 Медицина и биология'], ['creative', '🎨 Дизайн и творчество'], ['unknown', '🤔 Пока не знаю']] },
+        { key: 'where', text: 'Где хочешь учиться?', options: [['kz', '🇰🇿 В Казахстане, на грант'], ['abroad', '✈️ За рубежом'], ['unsure', 'Ещё не решил(а)']] }
+      ],
+      fieldNames: { it: 'IT', business: 'бизнесе', med: 'медицине', creative: 'творческих направлениях' },
+      plan: {
+        testUnknown: 'Профтест: поймёшь, какие профессии тебе подходят',
+        testField: function (f) { return 'Профтест: проверишь, твоё ли это — учёба в ' + f; },
+        kz: ['Калькулятор гранта: шансы на грант по твоим баллам ЕНТ', 'Подбор вузов Казахстана под твоё направление'],
+        abroad: ['Подбор зарубежных вузов под твоё направление', 'Подготовка к IELTS и SAT', 'Помощь с мотивационным эссе'],
+        unsure: ['Подбор вузов в Казахстане и за рубежом', 'Калькулятор гранта по ЕНТ'],
+        early: 'У тебя есть время: план подготовки по годам',
+        venti: 'ИИ-помощник Venti ответит на вопросы о поступлении'
+      },
+      resultTitle: 'Твой план поступления готов 🎉',
+      resultBtn: 'Открыть мой план бесплатно →',
+      resultHint: 'Вход через Google или по почте, меньше минуты',
+      restart: 'Пройти заново'
+    },
+    kk: {
+      title: 'Ventorme — кім болатыныңды және қайда түсетініңді біл',
+      headerLink: 'Тіркелу',
+      heroTitle: 'Кім болатыныңды және қайда түсетініңді біл',
+      heroSub: '3 сұраққа жауап бер де, түсу жоспарыңды ал: мамандық, университеттер және грантқа түсу мүмкіндігі.',
+      skipText: 'Не қалайтыныңды білесің бе?',
+      skipLink: 'Бірден тіркелу',
+      trust1: 'Тегін', trust2: 'Google арқылы кіру', trust3: 'Бір минуттан аз',
+      howTitle: 'Бұл қалай жұмыс істейді',
+      steps: [
+        ['3 сұраққа жауап бер', 'Сыныбың, қызығушылығың және қай жерде оқығың келетіні.'],
+        ['Тіркел', 'Google немесе пошта арқылы, бір минуттан аз.'],
+        ['Жоспарыңды ал', 'Кәсіби тест, саған сай университеттер және грант мүмкіндігі.']
+      ],
+      featTitle: 'Тіркелгеннен кейін не ашылады',
+      features: [
+        ['🧭', 'Кәсіби тест', 'Саған қандай мамандықтар сай келетінін көрсетеді.'],
+        ['🎓', 'Университет таңдау', 'Мақсатыңа сай Қазақстандағы және шетелдегі университеттер.'],
+        ['🧮', 'Грант калькуляторы', 'ҰБТ балдары бойынша грантқа түсу мүмкіндігі.'],
+        ['📝', 'IELTS және SAT', 'Шетелге түсуге арналған емтихандарға дайындық.'],
+        ['✍️', 'Эссе жазуға көмек', 'Түсуге арналған мотивациялық хат.'],
+        ['🤖', 'Venti ЖИ-көмекшісі', 'Түсу туралы сұрақтарға кез келген уақытта жауап береді.']
+      ],
+      parentsTitle: 'Ата-аналарға',
+      parentsText: 'Ventorme платформасында ата-аналарға арналған бөлім бар: баланың прогресін бақылап, университетті бірге таңдауға болады.',
+      parentsList: ['Баланың не өткенін көресіз', 'Сай келетін университеттердің түсінікті тізімі', 'ҰБТ балдары бойынша грант мүмкіндігі'],
+      faqTitle: 'Жиі қойылатын сұрақтар',
+      faq: [
+        ['Тіркелгеннен кейін не аламын?', 'Ventorme жеке кабинеті: кәсіби тест, университет таңдау, ҰБТ бойынша грант калькуляторы, IELTS пен SAT-қа дайындық, эссе жазуға көмек және Venti ЖИ-көмекшісі.'],
+        ['Бұл тегін бе?', 'Тіркелу тегін, бірден бастауға болады. Қосымша мүмкіндіктер ақылы тарифте бар, бірақ оны сатып алу міндетті емес.'],
+        ['Тіркелу ұзаққа созыла ма?', 'Жоқ. Google арқылы бірнеше басумен кіруге немесе пошта арқылы тіркелуге болады.'],
+        ['Бағаларым мінсіз болмаса да, түсе аламын ба?', 'Иә, университеттер әртүрлі. Ventorme балдарыңа сай нұсқаларды таңдап, мүмкіндігің қай жерде жоғары екенін көрсетеді.'],
+        ['8–9 сыныптамын. Ерте емес пе?', 'Жоқ. Бағытыңды неғұрлым ерте таңдасаң, ҰБТ-ға немесе IELTS-ке дайындалуға соғұрлым көп уақыт қалады.']
+      ],
+      finalTitle: 'Тегін баста',
+      finalText: 'Google немесе пошта арқылы тіркелу бір минуттан аз уақыт алады.',
+      finalBtn: 'Ventorme платформасына тіркелу',
+      stickyBtn: 'Тегін тіркелу',
+      footer: 'Ventorme оқушыларға мамандық таңдап, университетке түсуге көмектеседі.',
+      qStep: function (i, n) { return 'Сұрақ ' + i + ' / ' + n; },
+      back: '← Артқа',
+      questions: [
+        { key: 'grade', text: 'Нешінші сыныпта оқисың?', options: [['8-9', '8–9 сынып'], ['10-11', '10–11 сынып'], ['college', 'Колледж']] },
+        { key: 'field', text: 'Саған не жақын?', options: [['it', '💻 IT және технологиялар'], ['business', '📊 Бизнес және аналитика'], ['med', '🩺 Медицина және биология'], ['creative', '🎨 Дизайн және шығармашылық'], ['unknown', '🤔 Әлі білмеймін']] },
+        { key: 'where', text: 'Қай жерде оқығың келеді?', options: [['kz', '🇰🇿 Қазақстанда, грантпен'], ['abroad', '✈️ Шетелде'], ['unsure', 'Әлі шешпедім']] }
+      ],
+      fieldNames: { it: 'IT', business: 'бизнес', med: 'медицина', creative: 'шығармашылық' },
+      plan: {
+        testUnknown: 'Кәсіби тест: саған қандай мамандықтар сай келетінін түсінесің',
+        testField: function (f) { return 'Кәсіби тест: ' + f + ' саласы саған сай ма, тексересің'; },
+        kz: ['Грант калькуляторы: ҰБТ балдарың бойынша грант мүмкіндігі', 'Бағытыңа сай Қазақстан университеттері'],
+        abroad: ['Бағытыңа сай шетелдік университеттер', 'IELTS және SAT-қа дайындық', 'Мотивациялық эссе жазуға көмек'],
+        unsure: ['Қазақстандағы және шетелдегі университеттер', 'ҰБТ бойынша грант калькуляторы'],
+        early: 'Уақытың бар: жылдар бойынша дайындық жоспары',
+        venti: 'Venti ЖИ-көмекшісі түсу туралы сұрақтарға жауап береді'
+      },
+      resultTitle: 'Түсу жоспарың дайын 🎉',
+      resultBtn: 'Жоспарымды тегін ашу →',
+      resultHint: 'Google немесе пошта арқылы кіру, бір минуттан аз',
+      restart: 'Қайта өту'
+    },
+    en: {
+      title: 'Ventorme — find your career and the right university',
+      headerLink: 'Sign up',
+      heroTitle: 'Find your career and the right university',
+      heroSub: 'Answer 3 questions and get your admission plan: career, universities and scholarship chances.',
+      skipText: 'Already know what you want?',
+      skipLink: 'Sign up now',
+      trust1: 'Free', trust2: 'Sign in with Google', trust3: 'Under a minute',
+      howTitle: 'How it works',
+      steps: [
+        ['Answer 3 questions', 'Your grade, your interests and where you want to study.'],
+        ['Sign up', 'With Google or email, in under a minute.'],
+        ['Get your plan', 'Career test, matching universities and scholarship chances.']
+      ],
+      featTitle: 'What you get after signing up',
+      features: [
+        ['🧭', 'Career test', 'Find out which careers suit you.'],
+        ['🎓', 'University match', 'Universities in Kazakhstan and abroad that fit your goals.'],
+        ['🧮', 'Grant calculator', 'Your chances for a state grant based on UNT scores.'],
+        ['📝', 'IELTS and SAT', 'Exam prep for studying abroad.'],
+        ['✍️', 'Essay help', 'Help with your motivation letter.'],
+        ['🤖', 'Venti AI assistant', 'Answers your admission questions any time.']
+      ],
+      parentsTitle: 'For parents',
+      parentsText: 'Ventorme has a section for parents: follow your child’s progress and choose universities together.',
+      parentsList: ['See what your child has completed', 'A clear list of matching universities', 'Grant chances based on UNT scores'],
+      faqTitle: 'FAQ',
+      faq: [
+        ['What do I get after signing up?', 'Your Ventorme account: career test, university match, UNT grant calculator, IELTS and SAT prep, essay help and the Venti AI assistant.'],
+        ['Is it free?', 'Signing up is free and you can start right away. Extra features are in a paid plan, but you don’t have to buy it.'],
+        ['Does signing up take long?', 'No. Sign in with Google in a couple of taps or sign up with email.'],
+        ['Can I get in if my grades aren’t perfect?', 'Yes, universities differ. Ventorme will match options to your scores and show where your chances are higher.'],
+        ['I’m in grade 8–9. Isn’t it too early?', 'No. The sooner you pick a direction, the more time you have to prepare for the UNT or IELTS.']
+      ],
+      finalTitle: 'Start for free',
+      finalText: 'Signing up with Google or email takes less than a minute.',
+      finalBtn: 'Sign up for Ventorme',
+      stickyBtn: 'Sign up for free',
+      footer: 'Ventorme helps students choose a career and get into university.',
+      qStep: function (i, n) { return 'Question ' + i + ' of ' + n; },
+      back: '← Back',
+      questions: [
+        { key: 'grade', text: 'What grade are you in?', options: [['8-9', 'Grade 8–9'], ['10-11', 'Grade 10–11'], ['college', 'College']] },
+        { key: 'field', text: 'What interests you most?', options: [['it', '💻 IT and tech'], ['business', '📊 Business and analytics'], ['med', '🩺 Medicine and biology'], ['creative', '🎨 Design and arts'], ['unknown', '🤔 Not sure yet']] },
+        { key: 'where', text: 'Where do you want to study?', options: [['kz', '🇰🇿 In Kazakhstan, on a grant'], ['abroad', '✈️ Abroad'], ['unsure', 'Haven’t decided yet']] }
+      ],
+      fieldNames: { it: 'IT', business: 'business', med: 'medicine', creative: 'creative fields' },
+      plan: {
+        testUnknown: 'Career test: find out which careers suit you',
+        testField: function (f) { return 'Career test: check if ' + f + ' is right for you'; },
+        kz: ['Grant calculator: your chances based on UNT scores', 'Universities in Kazakhstan for your field'],
+        abroad: ['Universities abroad for your field', 'IELTS and SAT prep', 'Help with your motivation essay'],
+        unsure: ['Universities in Kazakhstan and abroad', 'UNT grant calculator'],
+        early: 'You have time: a year-by-year prep plan',
+        venti: 'Venti AI assistant answers your admission questions'
+      },
+      resultTitle: 'Your admission plan is ready 🎉',
+      resultBtn: 'Open my plan for free →',
+      resultHint: 'Sign in with Google or email, under a minute',
+      restart: 'Start over'
+    }
+  };
+
+  var LANG_CODES = { ru: 'RU', kk: 'KZ', en: 'EN' };
+  var lang = 'ru';
+  var step = 0;
+  var answers = {};
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function buildPlan(t) {
+    var plan = [];
+    plan.push(answers.field === 'unknown' ? t.plan.testUnknown : t.plan.testField(t.fieldNames[answers.field]));
+    plan = plan.concat(t.plan[answers.where] || t.plan.unsure);
+    if (answers.grade === '8-9') plan.push(t.plan.early);
+    plan.push(t.plan.venti);
+    return plan;
+  }
+
+  function renderQuiz() {
+    var t = T[lang];
+    var box = document.getElementById('quiz');
+    var n = t.questions.length;
+    if (step >= n) {
+      box.innerHTML =
+        '<div class="quiz-result">' +
+          '<p class="quiz-kicker">' + esc(t.resultTitle) + '</p>' +
+          '<ul class="plan">' + buildPlan(t).map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ul>' +
+          '<a class="btn btn-lime" href="' + esc(REGISTER_URL) + '">' + esc(t.resultBtn) + '</a>' +
+          '<p class="hint">' + esc(t.resultHint) + '</p>' +
+          '<button type="button" class="link-btn" data-restart>' + esc(t.restart) + '</button>' +
+        '</div>';
+      return;
+    }
+    var q = t.questions[step];
+    box.innerHTML =
+      '<div class="quiz-top"><span class="quiz-step">' + esc(t.qStep(step + 1, n)) + '</span>' +
+        (step > 0 ? '<button type="button" class="link-btn" data-back>' + esc(t.back) + '</button>' : '') +
+      '</div>' +
+      '<div class="progress" aria-hidden="true"><span style="width:' + (step / n * 100) + '%"></span></div>' +
+      '<p class="quiz-question">' + esc(q.text) + '</p>' +
+      '<div class="quiz-options">' +
+        q.options.map(function (o) {
+          return '<button type="button" class="quiz-btn" data-key="' + q.key + '" data-value="' + o[0] + '">' + esc(o[1]) + '</button>';
+        }).join('') +
+      '</div>';
+  }
+
+  function renderStatic() {
+    var t = T[lang];
+    document.documentElement.lang = lang;
+    document.title = t.title;
+    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+      var v = t[el.getAttribute('data-i18n')];
+      if (typeof v === 'string') el.textContent = v;
+    });
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-checked', String(b.getAttribute('data-set-lang') === lang));
+    });
+    document.getElementById('langCode').textContent = LANG_CODES[lang];
+    document.getElementById('steps').innerHTML = t.steps.map(function (s) {
+      return '<li><div><h3>' + esc(s[0]) + '</h3><p>' + esc(s[1]) + '</p></div></li>';
+    }).join('');
+    document.getElementById('features').innerHTML = t.features.map(function (f) {
+      return '<div class="feature"><span class="feature-icon" aria-hidden="true">' + f[0] + '</span><div><h3>' + esc(f[1]) + '</h3><p>' + esc(f[2]) + '</p></div></div>';
+    }).join('');
+    document.getElementById('parentsList').innerHTML = t.parentsList.map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('');
+    document.getElementById('faq').innerHTML = t.faq.map(function (f) {
+      return '<details><summary>' + esc(f[0]) + '</summary><p>' + esc(f[1]) + '</p></details>';
+    }).join('');
+    renderQuiz();
+  }
+
+  function setLang(l) {
+    lang = T[l] ? l : 'ru';
+    try { localStorage.setItem('vt-lang', lang); } catch (e) {}
+    renderStatic();
+  }
+
+  // Все кнопки регистрации ведут на ссылку команды
+  document.querySelectorAll('.js-register').forEach(function (a) { a.href = REGISTER_URL; });
+
+  document.getElementById('quiz').addEventListener('click', function (e) {
+    var b = e.target.closest('button');
+    if (!b) return;
+    if (b.hasAttribute('data-key')) {
+      answers[b.getAttribute('data-key')] = b.getAttribute('data-value');
+      step++;
+    } else if (b.hasAttribute('data-back')) {
+      step = Math.max(0, step - 1);
+    } else if (b.hasAttribute('data-restart')) {
+      step = 0; answers = {};
+    } else {
+      return;
+    }
+    renderQuiz();
+    var first = document.querySelector('#quiz button, #quiz a');
+    if (first) first.focus({ preventScroll: true });
+  });
+
+  // Выбор языка: окошко открывается по нажатию, закрывается по выбору, клику мимо или Esc
+  var langBox = document.getElementById('lang');
+  var langToggle = document.getElementById('langToggle');
+  var langMenu = document.getElementById('langMenu');
+  var langItems = [].slice.call(langMenu.querySelectorAll('[data-set-lang]'));
+
+  function openLangMenu() {
+    langMenu.hidden = false;
+    langToggle.setAttribute('aria-expanded', 'true');
+    var current = langMenu.querySelector('[aria-checked="true"]') || langItems[0];
+    current.focus();
+  }
+  function closeLangMenu(returnFocus) {
+    if (langMenu.hidden) return;
+    langMenu.hidden = true;
+    langToggle.setAttribute('aria-expanded', 'false');
+    if (returnFocus) langToggle.focus();
+  }
+
+  langToggle.addEventListener('click', function () {
+    if (langMenu.hidden) openLangMenu(); else closeLangMenu(false);
+  });
+  langItems.forEach(function (b) {
+    b.addEventListener('click', function () {
+      setLang(b.getAttribute('data-set-lang'));
+      closeLangMenu(true);
+    });
+  });
+  langMenu.addEventListener('keydown', function (e) {
+    var i = langItems.indexOf(document.activeElement);
+    if (e.key === 'ArrowDown') { e.preventDefault(); langItems[(i + 1) % langItems.length].focus(); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); langItems[(i - 1 + langItems.length) % langItems.length].focus(); }
+    else if (e.key === 'Tab') { closeLangMenu(false); }
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeLangMenu(true); });
+  document.addEventListener('click', function (e) { if (!langBox.contains(e.target)) closeLangMenu(false); });
+
+  // Язык: ?lang=kk или ?lang=en в ссылке → сохранённый выбор → язык браузера
+  var initial = 'ru';
+  try {
+    var qp = new URLSearchParams(location.search).get('lang');
+    var saved = localStorage.getItem('vt-lang');
+    if (qp && T[qp]) initial = qp;
+    else if (saved && T[saved]) initial = saved;
+    else {
+      var nl = (navigator.language || '').toLowerCase();
+      if (nl.indexOf('kk') === 0) initial = 'kk';
+      else if (nl.indexOf('en') === 0) initial = 'en';
+    }
+  } catch (e) {}
+  setLang(initial);
+
+  // Нижняя кнопка появляется, когда квиз ушёл с экрана
+  var sticky = document.getElementById('sticky');
+  var stickyLink = sticky.querySelector('a');
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      var show = !entries[0].isIntersecting;
+      sticky.classList.toggle('is-visible', show);
+      sticky.setAttribute('aria-hidden', String(!show));
+      stickyLink.tabIndex = show ? 0 : -1;
+    }).observe(document.getElementById('quiz'));
+  }
+})();
+</script>
+</body>
+</html>
