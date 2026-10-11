@@ -1,122 +1,72 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import { REGISTER_URL } from './config';
+import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [step, setStep] = useState(0);
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+      <div className="page-container">
+        {/* Главный экран (Hero) с фоновым изображением */}
+        <div className="hero-section">
+          <img
+              src="https://ventorme.ai/figma/studentlanding/v4f/hero-bg.webp"
+              alt="Background"
+              className="hero-bg"
+          />
+          <div className="hero-overlay"></div>
 
-      <div className="ticks"></div>
+          <div className="hero-content">
+            {/* Шапка */}
+            <header className="site-header">
+              <img
+                  src="https://ventorme.ai/figma/studentlanding/logo-ventorme-short-lime.svg"
+                  alt="ventorme.ai"
+                  className="site-logo"
+              />
+            </header>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
+            {/* Текст первого экрана */}
+            <section className="hero-text-block">
+              <h1 className="hero-title">
+                Выбери профессию и поступи в вуз мечты
+              </h1>
+              <p className="hero-subtitle">
+                Пройди короткий тест, подбери университеты и рассчитай шансы на грант за пару кликов.
+              </p>
+              <a href={REGISTER_URL} className="hero-btn">
+                Начать бесплатно 🚀
               </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+            </section>
+          </div>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        {/* Мини-квиз */}
+        <section className="quiz-card">
+          <h2 className="quiz-title">Узнай свой план поступления за 30 секунд</h2>
+          {step === 0 && (
+              <div>
+                <p className="quiz-question">В каком ты классе / курсе?</p>
+                <button onClick={() => setStep(1)} className="quiz-btn">8–9 класс</button>
+                <button onClick={() => setStep(1)} className="quiz-btn">10–11 класс / Колледж</button>
+              </div>
+          )}
+          {step === 1 && (
+              <div>
+                <p className="quiz-question">Что тебе ближе?</p>
+                <button onClick={() => setStep(2)} className="quiz-btn">💻 IT и Технологии</button>
+                <button onClick={() => setStep(2)} className="quiz-btn">📊 Бизнес и Аналитика</button>
+              </div>
+          )}
+          {step === 2 && (
+              <div style={{ textAlign: 'center' }}>
+                <p className="quiz-question" style={{ fontWeight: 'bold' }}>Результаты готовы! Зарегистрируйся, чтобы посмотреть разбор:</p>
+                <a href={REGISTER_URL} className="quiz-btn quiz-btn-final">
+                  Открыть мой результат →
+                </a>
+              </div>
+          )}
+        </section>
+      </div>
+  );
 }
-
-export default App
