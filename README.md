@@ -14,7 +14,7 @@
 ![RU · KZ · EN](https://img.shields.io/badge/RU_·_KZ_·_EN-dfff00?style=flat-square&labelColor=02053f&color=dfff00)
 ![Mobile first](https://img.shields.io/badge/mobile-first-1f9d6c?style=flat-square)
 
-[Проблема](#проблема) · [Путь пользователя](#путь-пользователя) · [Решение](#решение) · [Возможности](#возможности) · [Запуск](#запуск)
+**[Открыть сайт →](https://mickey-hakaton-project.vercel.app/)** · [Проблема](#проблема) · [Путь пользователя](#путь-пользователя) · [Решение](#решение) · [Возможности](#возможности) · [Запуск](#запуск)
 
 <br>
 
