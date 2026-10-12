@@ -9,7 +9,7 @@
 
 Три вопроса — и школьник получает свой план поступления: профессия, вузы и шансы на грант.
 
-![HACKNEXT × Ventorme](https://img.shields.io/badge/HACKNEXT_×_Ventorme-1_%D1%82%D1%83%D1%80-3b47ff?style=flat-square)
+![HACKNET × Ventorme](https://img.shields.io/badge/HACKNEXT_×_Ventorme-1_%D1%82%D1%83%D1%80-3b47ff?style=flat-square)
 ![Команда 104](https://img.shields.io/badge/%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%B0-104-02053f?style=flat-square)
 ![RU · KZ · EN](https://img.shields.io/badge/RU_·_KZ_·_EN-dfff00?style=flat-square&labelColor=02053f&color=dfff00)
 ![Mobile first](https://img.shields.io/badge/mobile-first-1f9d6c?style=flat-square)
